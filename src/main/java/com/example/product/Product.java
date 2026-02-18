@@ -1,6 +1,6 @@
 package com.example.product;
 
-import com.example.order.OrderItem;
+import com.example.order.item.OrderItem;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

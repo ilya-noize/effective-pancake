@@ -1,5 +1,6 @@
-package com.example.order;
+package com.example.order.item;
 
+import com.example.order.Order;
 import com.example.product.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
