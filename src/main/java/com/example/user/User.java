@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "usr")
@@ -16,9 +17,11 @@ public class User {
     private Long id;
 
     @Column(name="name")
+    @Size(min=3, max=32)
     private String name;
 
     @Column(name = "email")
+    @Size(min=5, max=255)
     private String email;
 
     public User() {
