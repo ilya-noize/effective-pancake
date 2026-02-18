@@ -1,13 +1,17 @@
 package com.example.product;
 
+import com.example.order.OrderItem;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -28,6 +32,9 @@ public class Product {
 
     @Column(name = "stock_quantity")
     private Integer stockQuantity;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<OrderItem> orderItems;
 
     public Product() {
     }
@@ -78,5 +85,13 @@ public class Product {
 
     public void setStockQuantity(Integer stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

@@ -1,12 +1,17 @@
 package com.example.user;
 
+import com.example.order.Order;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 @Entity
 @Table(name = "usr")
@@ -16,13 +21,16 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name="name")
-    @Size(min=3, max=32)
+    @Column(name = "name")
+    @Size(min = 3, max = 32)
     private String name;
 
     @Column(name = "email")
-    @Size(min=5, max=255)
+    @Size(min = 5, max = 255)
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Order> orders;
 
     public User() {
     }
@@ -55,5 +63,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
