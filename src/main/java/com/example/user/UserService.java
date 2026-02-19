@@ -66,4 +66,26 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    public void existsById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("No such user by ID:" + id);
+        };
+    }
+
+    public void existsByIdAndOrderId(Long userId, Long orderId) {
+        if (!userRepository.existsByIdAndOrders_Id(userId, orderId)) {
+            throw new EntityNotFoundException("No such order ID:%s by user by ID:%s"
+                    .formatted(userId, orderId)
+            );
+        }
+    }
+
+    public void existsByIdAndOrderIds(Long userId, List<Long> orderIds) {
+        if (!userRepository.existsByIdAndOrders_IdIn(userId, orderIds)) {
+            throw new EntityNotFoundException("No such orders ID:%s by user by ID:%s"
+                    .formatted(userId, orderIds)
+            );
+        }
+    }
 }
