@@ -1,6 +1,7 @@
 package com.example.product;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -101,5 +102,21 @@ public class ProductService {
 
     public void deleteMany(List<Long> ids) {
         productRepository.deleteAllById(ids);
+    }
+
+    public List<ProductDto> getLowStockProducts(Integer minStockQuantity) {
+        List<Product> lowStockProducts = productRepository
+                .findAllByStockQuantityLessThanEqual(minStockQuantity);
+
+        return lowStockProducts.stream()
+                .map(entityConverter::toDomain)
+                .toList();
+    }
+
+    public List<ProductDto> getTopSellingProducts(int limit) {
+        return productRepository.getTopSellingProducts(PageRequest.of(0, limit))
+                .stream()
+                .map(entityConverter::toDomain)
+                .toList();
     }
 }

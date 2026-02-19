@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductDtoConverter {
 
-    ProductDto toEntity(ProductPostRequest post) {
+    public ProductDto toEntity(ProductPostRequest post) {
 
         return new ProductDto(
                 null,
@@ -16,7 +16,7 @@ public class ProductDtoConverter {
         );
     }
 
-    ProductDto toEntity(ProductPatchRequest patch) {
+    public ProductDto toEntity(ProductPatchRequest patch) {
 
         return new ProductDto(
                 patch.id(),
@@ -27,7 +27,7 @@ public class ProductDtoConverter {
         );
     }
 
-    ProductResponse toDomain(ProductDto dto) {
+    public ProductResponse toDomain(ProductDto dto) {
 
         return new ProductResponse(
                 dto.id(),
