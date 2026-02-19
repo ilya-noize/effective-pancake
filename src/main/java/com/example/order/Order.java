@@ -17,6 +17,16 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Constructor for creating a new order {
+ * {@link #id}
+ * {@link #user}
+ * {@link #items}
+ * {@link #createdAt}
+ * {@link #updatedAt}
+ * {@link #status}
+ * }
+ */
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -42,11 +52,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, User user, List<OrderItem> items, LocalDateTime createdAt, String status) {
+    public Order(Long id, User user, List<OrderItem> items, LocalDateTime createdAt, LocalDateTime updatedAt, String status) {
         this.id = id;
         this.user = user;
         this.items = items;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.status = status;
     }
 
