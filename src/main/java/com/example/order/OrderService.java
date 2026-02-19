@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -94,6 +95,7 @@ public class OrderService {
     }
 
     public List<Long> patchMany(Long userId, List<Long> ids, JsonNode patchNode) {
+        validateUserIdAndOrderUserIds(userId, ids);
         Collection<Order> orders = orderRepository.findAllById(ids);
 
         for (Order order : orders) {
@@ -101,19 +103,20 @@ public class OrderService {
             objectMapper.readerForUpdating(orderResponseDto).readValue(patchNode);
             updateWithNull(orderResponseDto, order);
         }
-
         List<Order> resultOrders = orderRepository.saveAll(orders);
+
         return resultOrders.stream()
                 .map(Order::getId)
                 .toList();
     }
 
     public OrderResponseDto delete(Long userId, Long id) {
-
+        validateUserIdAndOrderUserId(userId, id);
         Order order = orderRepository.findById(id).orElse(null);
         if (order != null) {
             orderRepository.delete(order);
         }
+
         return toOrderResponseDto(order);
     }
 
@@ -187,18 +190,23 @@ public class OrderService {
         userService.existsById(userId);
         userService.existsByIdAndOrderId(userId, orderUserId);
         if (!userId.equals(orderUserId)) {
-            throw new IllegalArgumentException("Ошибка в создании заказа (userID не совпадает с userID в заказе)");
+            throw new IllegalArgumentException("Ошибка в обработке заказа (userID не совпадает с userID в заказе)");
         }
     }
 
     private void validateUserIdAndOrderUserIds(Long userId, List<Long> orderUserIds) {
         userService.existsById(userId);
         userService.existsByIdAndOrderIds(userId, orderUserIds);
+        List<Long> invalidOrderIdList = new ArrayList<>();
         orderUserIds.forEach(orderUserId -> {
-            if (!orderUserIds.contains(userId)) {
-                throw new IllegalArgumentException("Ошибка в создании заказа (userID не совпадает с userID в заказе)");
+            if (!orderUserId.equals(userId)) {
+                invalidOrderIdList.add(orderUserId);
             }
         });
-
+        if(!invalidOrderIdList.isEmpty()) {
+            throw new IllegalArgumentException("Ошибка в обработке заказа (userID не совпадает с userID в заказе):%s"
+                    .formatted(invalidOrderIdList)
+            );
+        }
     }
 }

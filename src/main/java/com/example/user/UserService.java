@@ -70,7 +70,7 @@ public class UserService {
     public void existsById(Long id) {
         if (!userRepository.existsById(id)) {
             throw new EntityNotFoundException("No such user by ID:" + id);
-        };
+        }
     }
 
     public void existsByIdAndOrderId(Long userId, Long orderId) {
