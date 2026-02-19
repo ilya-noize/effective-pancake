@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductEntityConverter {
 
-    Product toEntity(ProductDto dto) {
+    public Product toEntity(ProductDto dto) {
 
         return new Product(
                 dto.id(),
@@ -17,7 +17,7 @@ public class ProductEntityConverter {
     }
 
 
-    ProductDto toDomain(Product entity) {
+    public ProductDto toDomain(Product entity) {
 
         return new ProductDto(
                 entity.getId(),
